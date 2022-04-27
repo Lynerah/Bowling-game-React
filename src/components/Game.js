@@ -1,21 +1,28 @@
+const NBR_OF_QUILLES = 15;
+const NBR_OF_FRAME = 5;
 class Game {
     constructor() {
-      this.rolls = [];
-      this.currentRole = 0;
+      this.rounds = [];
+      this.currentRoll = 0;
     }
   
     static create = () => new Game();
   
-    roll = pins => (this.rolls[this.currentRole++] = pins);
+//quille par tour
+    round = pins => (this.rounds[this.currentRoll++] = pins);
   
+
+//control btn reset
     reset = () => {
-      this.rolls = [];
-      this.currentRole = 0;
+      this.rounds = [];
+      this.currentRoll = 0;
     };
-  
-    pinsUp = () => {
+
+//nombre de quilles encore debout 
+    getPinsUp = () => {
       const scoreData = this.score();
-      let pinsUp = 10;
+      let nbrOfQuilles = NBR_OF_QUILLES 
+      let pinsUp = nbrOfQuilles;
       scoreData.forEach(o => {
         if (o.pinsUp !== null && !isNaN(o.pinsUp)) {
           pinsUp = o.pinsUp;
@@ -25,72 +32,127 @@ class Game {
     };
   
     score = () => {
-      let scoreData = [];
-      let score = 0;
-      let frameIndex = 0;
-  
-      const roll1 = () => this.rolls[frameIndex];
-      const roll2 = () => this.rolls[frameIndex + 1];
-      const roll3 = () => this.rolls[frameIndex + 2];
-  
-      const sumOfFrameRolls = () => roll1() + roll2();
-  
-      const spareBonus = () => roll3();
-  
-      const strikeBonus = () => roll2() + roll3();
-  
-      const isStrike = () => roll1() === 10;
-  
-      const isSpare = () => sumOfFrameRolls() === 10;
-  
-      const saveFrame = (scoreData, leftBox, rightBox, score, pinsUp) => {
-        if (scoreData.length < 9) {
-          scoreData.push({
-            leftBox,
-            rightBox,
-            cumulativeScore: score,
-            pinsUp
-          });
-        } else {
-          const box1 = roll1() === 10 ? "X" : roll1();
-          const box2 = roll2() === 10 ? "X" : isSpare() ? "/" : roll2();
-          let box3;
-          if (roll3() === 10) {
-            box3 = "X";
-          } else if (roll1() === 10 || roll1() + roll2() === 10) {
-            box3 = roll3();
-          } else {
-            box3 = "";
-          }
-  
-          scoreData.push({
-            leftBox: box1,
-            rightBox: box2,
-            cumulativeScore: score,
-            pinsUp,
-            extraBox: box3
-          });
-        }
-      };
-  
-      [...Array(10)].forEach((_, frame) => {
-        if (isStrike()) {
-          score += 10 + strikeBonus();
-          saveFrame(scoreData, "", "X", score, 10);
-          frameIndex++;
-        } else if (isSpare()) {
-          score += 10 + spareBonus();
-          saveFrame(scoreData, roll1(), "/", score, 10);
-          frameIndex += 2;
-        } else {
-          score += sumOfFrameRolls();
-          const pinsUp = roll2() !== undefined ? 10 : 10 - roll1();
-          saveFrame(scoreData, roll1(), roll2(), score, pinsUp);
-          frameIndex += 2;
-        }
-      });
-  
-      return scoreData;
+        let scoreData = [];
+        let score = 0;
+        let roundIndex = 0;
+
+        const nbrOfQuilles = NBR_OF_QUILLES 
+
+        //methode de calcule des scores
+        const round1 = () => this.rounds[roundIndex];
+        const round2 = () => this.rounds[roundIndex + 1];
+        const round3 = () => this.rounds[roundIndex + 2];
+        const round4 = () => this.rounds[roundIndex + 3];
+        const round5 = () => this.rounds[roundIndex + 4];
+
+        const sumOfFrameRolls = () => round1() + round2() + round3();
+
+        const isStrike = () => round1() === nbrOfQuilles;
+        
+        const isSpare = () => sumOfFrameRolls() === nbrOfQuilles;
+        
+        const isSpareRound2 = () => round1() + round2() === nbrOfQuilles;
+        
+        const spareBonus = () => {
+            if(isSpareRound2) {
+              return round3() + round4()
+            }
+            return round4() + round5()
+        };
+        
+        const strikeBonus = () => round2() + round3() + round4();
+
+        //push les scores dans le tableau scoreData + adaptation des symbole en fonction de l'action
+        const saveScore = (scoreData, leftBox, midBox, rightBox, score, pinsUp) => {
+            if (scoreData.length < NBR_OF_FRAME) {
+                console.log(scoreData.length)
+                scoreData.push({
+                leftBox,
+                midBox,
+                rightBox,
+                cumulativeScore: score,
+                pinsUp
+                });
+            } else {
+                const box1 = isStrike() ? "X" : round1();
+                const box2 = isSpareRound2() ? "/" : round2();
+                const box3 = isSpare() ? "/" : round3();
+
+                let box4;
+                if (round4() === nbrOfQuilles) {
+                    box4 = "X";
+                } else if (isStrike() || isSpareRound2() || isSpare())  {
+                    box4 = round4();
+                } else {
+                    box4 = "";
+                }
+                console.log("test", round1(), round2(), round3(), round4())
+                scoreData.push({
+                    leftBox: box1,
+                    midBox : box2,
+                    rightBox: box3,
+                    cumulativeScore: score,
+                    pinsUp,
+                    extraBox: box4
+                });
+            }
+        };
+
+        [...Array(NBR_OF_FRAME)].forEach((_, frameIndex) => {
+            if (frameIndex === 4) {
+                if (isStrike()) {
+                    score += nbrOfQuilles + strikeBonus();
+                    saveScore(scoreData, "X", round2(), round3(), score, nbrOfQuilles);
+                    roundIndex++;
+                } else if (isSpareRound2()) {
+                    score += nbrOfQuilles + spareBonus();
+                    saveScore(scoreData, round1(), "/", round3(), score, nbrOfQuilles);
+                    roundIndex+=2;
+                } else if (isSpare()) {
+                    score += nbrOfQuilles + spareBonus();
+                    saveScore(scoreData, round1(), round2(), "/", score, nbrOfQuilles)
+                    roundIndex += 3
+                } else {
+                    score += sumOfFrameRolls() + round4();
+                    let pinsUp;
+                    if (round2() === undefined) { 
+                        pinsUp = nbrOfQuilles - round1();
+                    } else if (round2() !== undefined && round3() === undefined) {
+                        pinsUp = nbrOfQuilles - (round1() + round2());
+                    } else {
+                        pinsUp = nbrOfQuilles;
+                    }
+                    saveScore(scoreData, round1(), round2(), round3(), score, pinsUp);
+                }
+
+            } else if (isStrike()) {
+                score += nbrOfQuilles + strikeBonus();
+                saveScore(scoreData, "", "", "X", score, nbrOfQuilles);
+                roundIndex++;
+            } else if (isSpareRound2()) {
+                score += nbrOfQuilles + spareBonus();
+                saveScore(scoreData, round1(), "/", "", score, nbrOfQuilles);
+                roundIndex += 2;
+            } else if (isSpare()){
+                score += nbrOfQuilles + spareBonus();
+                saveScore(scoreData, round1(), round2(), "/", score, nbrOfQuilles);
+                roundIndex += 3;
+            } else {
+                score += sumOfFrameRolls();
+                let pinsUp;
+                if (round2() === undefined) { 
+                    pinsUp = nbrOfQuilles - round1();
+                } else if (round2() !== undefined && round3() === undefined) {
+                    pinsUp = nbrOfQuilles - (round1() + round2());
+                } else {
+                    pinsUp = nbrOfQuilles;
+                }
+                saveScore(scoreData, round1(), round2(), round3(), score, pinsUp);
+                roundIndex += 3;
+            }
+        });
+
+        return scoreData;
     };
   }
   

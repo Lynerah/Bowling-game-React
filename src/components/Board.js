@@ -40,7 +40,7 @@ export default class ScoreBoard extends Component {
   }
 
   roll = pins => {
-    this.game.roll(pins);
+    this.game.round(pins);
     this.setState({ score: this.game.score() });
   };
 

@@ -3,7 +3,6 @@ class BowlingGame {
    constructor(){
        this.rolls = [];
    }
-   static create = () => new BowlingGame();
    roll(quille){
        this.rolls.push(quille);
    }
