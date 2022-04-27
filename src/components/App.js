@@ -1,8 +1,6 @@
 import '../styles/App.css';
-
 import React, { useState } from "react";
-import Game from "./Game";
-
+import Game, {NBR_OF_FRAME} from "./Game";
 
 const Frame = ({ frameNumber, leftBox, midBox, rightBox, extraBox, score }) => (
   <div className="frame">
@@ -56,7 +54,7 @@ const ScoreBoard = () => {
 
 
       <div className="score-board">
-        {[...Array(5)].map((_, i) => (
+        {[...Array(NBR_OF_FRAME)].map((_, i) => (
           <Frame
             key={i}
             frameNumber={i + 1}
