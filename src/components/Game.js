@@ -11,22 +11,23 @@ class Game {
   
     static create = () => new Game();
   
-//quille par tour
+//Number of pins per round
     round = pins => (this.rounds[this.currentRoll++] = pins);
   
 
-//control btn reset
+//Control btn reset
     reset = () => {
       this.rounds = [];
       this.currentRoll = 0;
     };
 
-//nombre de quilles encore debout 
+//Checking the number of pins still up  
     getPinsUp = () => {
       const scoreData = this.score();
       let nbrOfQuilles = NBR_OF_QUILLES 
       let pinsUp = nbrOfQuilles;
       scoreData.forEach(o => {
+        //Get a number and not the NaN
         if (o.pinsUp !== null && !isNaN(o.pinsUp)) {
           pinsUp = o.pinsUp;
         }
@@ -34,6 +35,7 @@ class Game {
       return pinsUp;
     };
   
+    //Logic used to calculate scores
     score = () => {
         let scoreData = [];
         let score = 0;
@@ -41,13 +43,14 @@ class Game {
 
         const nbrOfQuilles = NBR_OF_QUILLES 
 
-        //methode de calcule des scores
+        //Create the rounds
         const round1 = () => this.rounds[roundIndex];
         const round2 = () => this.rounds[roundIndex + 1];
         const round3 = () => this.rounds[roundIndex + 2];
         const round4 = () => this.rounds[roundIndex + 3];
         const round5 = () => this.rounds[roundIndex + 4];
 
+        //Calculation of the score and specific actions 
         const sumOfFrameRolls = () => round1() + round2() + round3();
 
         const isStrike = () => round1() === nbrOfQuilles;
@@ -61,7 +64,7 @@ class Game {
         
         const strikeBonus = () => round2() + round3() + round4();
 
-        //push les scores dans le tableau scoreData 
+        //push scores in scoreData 
         const saveScore = (leftBox, midBox, rightBox, score, pinsUp, extraBox) => {
                 scoreData.push({
                 leftBox,
@@ -73,7 +76,9 @@ class Game {
                 });
         };
 
+        //Iteration on frame table
         [...Array(NBR_OF_FRAME)].forEach((_, frameIndex) => {
+            //Action when we are on the last frame
             if (frameIndex === 4) {
                 if (isStrike()) {
                     score += nbrOfQuilles + strikeBonus();
@@ -121,7 +126,7 @@ class Game {
                     saveScore(round1(), round2(), round3(), score, pinsUp);
                     roundIndex += 3;
                 }
-
+            //Action for the first to the second last frame
             } else if (isStrike()) {
                 score += nbrOfQuilles + strikeBonus();
                 saveScore("", "", "X", score, nbrOfQuilles);

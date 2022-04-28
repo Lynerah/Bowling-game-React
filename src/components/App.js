@@ -2,6 +2,7 @@ import '../styles/App.css';
 import React, { useState } from "react";
 import Game, {NBR_OF_FRAME} from "./Game";
 
+//Frame constructions
 const Frame = ({ frameNumber, leftBox, midBox, rightBox, extraBox, score }) => (
   <div className="frame">
     <div className="frame-number">{frameNumber}</div>
@@ -15,6 +16,7 @@ const Frame = ({ frameNumber, leftBox, midBox, rightBox, extraBox, score }) => (
   </div>
 );
 
+//Construction of the buttons to indicate the number of pins dropped and the reset button of the game
 const Controls = ({ handleRoll, handleReset, pinsUp }) => (
   <div className="controls">
     <div className="controls-left">
@@ -32,6 +34,7 @@ const Controls = ({ handleRoll, handleReset, pinsUp }) => (
   </div>
 );
 
+//Create with a loop the score board
 const ScoreBoard = () => {
   const [game] = useState(Game.create());
   const [score, setScore ] = useState(game.score());
