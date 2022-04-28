@@ -1,3 +1,4 @@
+
 //Exposes the number of pins and number of turns
 export const NBR_OF_FRAME = 5;
 const TOTAL_PINS_NUMBER = 15;
@@ -34,7 +35,11 @@ class Game {
       });
       return pinsUp;
     };
-  
+  /**
+*
+* @param score - Logic used to calculate scores
+*
+*/
     //Logic used to calculate scores
     score = () => {
         let scoreData = [];
