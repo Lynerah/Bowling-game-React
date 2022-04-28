@@ -1,5 +1,8 @@
+//Exposes the number of pins and number of turns
 export const NBR_OF_FRAME = 5;
 const NBR_OF_QUILLES = 15;
+
+//Class taking over all the controls of the game
 class Game {
     constructor() {
       this.rounds = [];
@@ -52,13 +55,9 @@ class Game {
         const isSpare = () => sumOfFrameRolls() === nbrOfQuilles;
         
         const isSpareRound2 = () => round1() + round2() === nbrOfQuilles;
-        
-        const spareBonus = () => {
-            if(isSpareRound2) {
-              return round3() + round4()
-            }
-            return round4() + round5()
-        };
+
+        const spareRound2Bonus = () => round3() + round4()
+        const spareBonus = () => round4() + round5()
         
         const strikeBonus = () => round2() + round3() + round4();
 
@@ -72,30 +71,6 @@ class Game {
                 pinsUp,
                 extraBox
                 });
-           
-            //     {
-            //     const box1 = isStrike() ? "X" : round1();
-            //     const box2 = isSpareRound2() ? "/" : round2();
-            //     const box3 = isSpare() ? "/" : round3();
-
-            //     let box4;
-            //     if (round4() === nbrOfQuilles) {
-            //         box4 = "X";
-            //     } else if (isStrike() || isSpareRound2() || isSpare())  {
-            //         box4 = round4();
-            //     } else {
-            //         box4 = "";
-            //     }
-            //     console.log("test", round1(), round2(), round3(), round4())
-            //     scoreData.push({
-            //         leftBox: box1,
-            //         midBox : box2,
-            //         rightBox: box3,
-            //         cumulativeScore: score,
-            //         pinsUp,
-            //         extraBox: box4
-            //     });
-            // }
         };
 
         [...Array(NBR_OF_FRAME)].forEach((_, frameIndex) => {
@@ -108,18 +83,24 @@ class Game {
                     } else if (round2() !== undefined && round3() === undefined) {
                         pinsUp = nbrOfQuilles - ((round1() + round2())% nbrOfQuilles);
                     } else if (round2() !== undefined && round3() !== undefined && round4() === undefined) { 
-                        pinsUp = nbrOfQuilles - ((round1() + round2())% nbrOfQuilles);
+                        pinsUp = nbrOfQuilles - ((round2() + round3())% nbrOfQuilles);
                     }
-                    saveScore("X", round2(), round3(), score, pinsUp, round4());
+                    const roundBonus2 = round2() === 15 ? "X" : round2();
+                    const roundBonus3 = round3() === 15 ? "X" : round3();
+                    const roundBonus4 = round4() === 15 ? "X" : round4();
+                    saveScore("X", roundBonus2, roundBonus3, score, pinsUp, roundBonus4);
+                    // saveScore("X", round2(), round3(), score, pinsUp, round4());
                     roundIndex++;
                 } else if (isSpareRound2()) {
-                    score += nbrOfQuilles + spareBonus();
+                    score += nbrOfQuilles + spareRound2Bonus();
                     let pinsUp
                     if (round3() === undefined) {
                         pinsUp = nbrOfQuilles;
                     } else if (round3() !== undefined && round4() === undefined) {
                         pinsUp = nbrOfQuilles - ((round1() + round2() + round3()) % nbrOfQuilles);
                     }
+                    // const roundBonus3 = round3() === 15 ? "X" : round3();
+                    // const roundBonus4 = round4() === 15 ? "X" : round4();
                     saveScore(round1(), "/", round3(), score, pinsUp, round4());
                     roundIndex+=2;
                 } else if (isSpare()) {
@@ -146,7 +127,7 @@ class Game {
                 saveScore("", "", "X", score, nbrOfQuilles);
                 roundIndex++;
             } else if (isSpareRound2()) {
-                score += nbrOfQuilles + spareBonus();
+                score += nbrOfQuilles + spareRound2Bonus();
                 saveScore(round1(), "/", "", score, nbrOfQuilles);
                 roundIndex += 2;
             } else if (isSpare()){
