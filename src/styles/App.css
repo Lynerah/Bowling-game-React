@@ -10,44 +10,17 @@
   background-color: #282c34;
   min-height: 20vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
-.score{
-  display: flex;
-  justify-content: center;
-}
-
-.frame{
-  border: solid purple;
-  width: 50%;
-}
-
-.player-name,
 .score-board {
   display: flex;
-  margin: 0 50px;
+  margin: 30px  100px;
   min-height: 100px;
   font-size: 12pt;
-}
-
-.player-name {
-  min-height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0 10px;
-  font-size: 12pt;
-  border: 1px solid black;
-  border-bottom: none;
-}
-
-.score-board {
-  margin-bottom: 30px;
 }
 
 .frame {
@@ -66,13 +39,14 @@
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  background: #bb9;
+  background: #bfe4ff;;
+  border-radius: 10px 10px 0 0;
+  border: 1px solid #91bad8;
 }
 
 .frame-score {
   flex: 1;
   display: flex;
-  flex-direction: row;
   border-top: 1px solid black;
   border-left: 1px solid black;
 }
@@ -99,15 +73,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border-bottom: 1px solid black;
 }
 
-.box.right {
-  border-left: 1px solid black;
-  border-bottom: 1px solid black;
-}
-.box.middel {
-  border-left: 1px solid black;
-  border-bottom: 1px solid black;
+.box.secondFrameScoreLabel {
+  border-left: 1px solid rgb(37, 37, 37);
+  border-right: 1px solid rgb(37, 37, 37);;
 }
 
 .extra {
@@ -120,19 +91,21 @@
   border-bottom: 1px solid black;
 }
 
-.frame:last-child div.left {
+.frame:last-child div.firstFrameScoreLabel {
   border-bottom: 1px solid black;
 }
 
-.frame-score div.right {
+/* .frame-score div.thirdFrameScoreLabel {
   border-left: 1px solid black;
   border-bottom: 1px solid black;
-}
+} */
 
 .controls-left {
   display: flex;
+  width: 100%;
   margin: 50px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 .controls-right {
   margin: 50px;
@@ -142,29 +115,28 @@
   justify-content: flex-end;
 }
 
-.roll {
+.score {
   margin-right: 5px;
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
   width: 30px;
   height: 30px;
-  border-radius: 10%;
-  border: 1px solid blue;
-  background: lightyellow;
+  border-radius: 50%;
+  border: 1px solid rgb(0, 128, 255);
+  background: rgb(255, 255, 255);
   font-size: 1em;
 }
 
-.roll:hover {
-  border: 1px solid blueviolet;
+.score:hover {
+  border: 1px dashed rgb(202, 43, 226);
 }
-.roll:active {
+.score:active {
   background: lightskyblue;
 }
 
 .reset {
-  border-radius: 3%;
+  border-radius: 10px;
   width: 150px;
   display: flex;
   align-items: center;
@@ -173,4 +145,16 @@
 
 .controls {
   display: flex;
+}
+
+@media screen and (max-width: 769px) {
+  .controls {
+    flex-wrap: wrap;
+  }
+  .controls-right {
+    margin: 10px 50px;
+  }
+  .score-board {
+    margin: 30px 20px;
+  }
 }
