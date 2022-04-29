@@ -1,5 +1,5 @@
 //Frame constructions
-const Frame = ({ frameTitle, firstFrameScoreLabel, secondFrameScoreLabel, thirdFrameScoreLabel, extraFrameScoreLabel, score }) => (
+const Frame = ({ frameTitle, firstFrameScoreLabel, secondFrameScoreLabel, thirdFrameScoreLabel, extraFrameScoreLabel, extraFrameScoreLabel2, score }) => (
    <div className="frame">
      <div className="frame_title">{frameTitle}</div>
      <div className="frame-score">
@@ -7,6 +7,7 @@ const Frame = ({ frameTitle, firstFrameScoreLabel, secondFrameScoreLabel, thirdF
        <div className="box secondFrameScoreLabel">{secondFrameScoreLabel}</div>
        <div className="box thirdFrameScoreLabel">{thirdFrameScoreLabel}</div>
        <div className="box extra">{extraFrameScoreLabel}</div>
+       <div className="box extra">{extraFrameScoreLabel2}</div>
      </div>
      <div className="running-score">{!isNaN(score) && score}</div>
    </div>

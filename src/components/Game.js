@@ -74,14 +74,15 @@ class Game {
          * @param {number} pinsUp - number of pins still up
          * @param {number} extraFrameScoreLabel - bonus round score in the last frame for a strike or spare
          */
-        const saveScore = (firstFrameScoreLabel, secondFrameScoreLabel, thirdFrameScoreLabel,score, pinsUp, extraFrameScoreLabel) => {
+        const saveScore = (firstFrameScoreLabel, secondFrameScoreLabel, thirdFrameScoreLabel, score, pinsUp, extraFrameScoreLabel, extraFrameScoreLabel2) => {
                 scoreData.push({
                 firstFrameScoreLabel,
                 secondFrameScoreLabel,
                 thirdFrameScoreLabel,
                 matchScore: score,
                 pinsUp,
-                extraFrameScoreLabel
+                extraFrameScoreLabel,
+                extraFrameScoreLabel2
                 });
         };
 
@@ -113,14 +114,12 @@ class Game {
                     } else if (round3() !== undefined && round4() === undefined) {
                         pinsUp = totalPinsNumber - ((round1() + round2() + round3()) % totalPinsNumber);
                     }
-                    // const roundBonus3 = round3() === 15 ? "X" : round3();
-                    // const roundBonus4 = round4() === 15 ? "X" : round4();
-                    saveScore(round1(), "/", round3(), score, pinsUp, round4());
+                    saveScore(round1(), "/", round3(), score, pinsUp, round4(), round5());
                     roundIndex+=2;
                 } else if (isSpare()) {
                     score += totalPinsNumber + spareBonus();
                     const pinsUp = totalPinsNumber
-                    saveScore(round1(), round2(), "/", score, pinsUp, round4())
+                    saveScore(round1(), round2(), "/", score, pinsUp, round4(), round5())
                     roundIndex += 3
                 } else {
                     score += sumOfFrameRolls() + round4();
@@ -163,7 +162,7 @@ class Game {
             }
         });
         console.log(scoreData);
-        return scoreData;  // totalScore || totalFramesScore || finalScore
+        return scoreData; 
     };
   }
   

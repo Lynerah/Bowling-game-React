@@ -34,6 +34,7 @@ const ScoreBoard = () => {
             secondFrameScoreLabel={score[i].secondFrameScoreLabel}
             thirdFrameScoreLabel={score[i].thirdFrameScoreLabel}
             extraFrameScoreLabel={score[i].extraFrameScoreLabel}
+            extraFrameScoreLabel2={score[i].extraFrameScoreLabel2}
             score={score[i].matchScore} 
           />
         ))}
