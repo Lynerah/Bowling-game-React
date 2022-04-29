@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Game, {NBR_OF_FRAME} from "./Game";
 import Frame from "./Frame";
-import Controls from "./ControlsBtn";
+import Controls from "./Controls";
 
 //Create with a loop the score board
 const ScoreBoard = () => {

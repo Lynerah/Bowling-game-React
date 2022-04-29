@@ -1,4 +1,3 @@
-
 //Exposes the number of pins and number of turns
 export const NBR_OF_FRAME = 5;
 const TOTAL_PINS_NUMBER = 15;
