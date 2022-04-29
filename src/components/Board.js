@@ -29,7 +29,7 @@ const ScoreBoard = () => {
         {[...Array(NBR_OF_FRAME)].map((_, i) => (
           <Frame
             key={i}
-            frameNumber={i + 1}
+            frameTitle={i + 1}
             firstFrameScoreLabel={score[i].firstFrameScoreLabel}
             secondFrameScoreLabel={score[i].secondFrameScoreLabel}
             thirdFrameScoreLabel={score[i].thirdFrameScoreLabel}

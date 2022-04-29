@@ -33,7 +33,7 @@
   flex: 3;
 }
 
-.frame-number {
+.frame_titler {
   flex: 1;
   display: flex;
   align-items: center;
@@ -100,14 +100,14 @@
   border-bottom: 1px solid black;
 } */
 
-.controls-left {
+.header_controls-left {
   display: flex;
   width: 100%;
   margin: 50px;
   margin-bottom: 20px;
   flex-wrap: wrap;
 }
-.controls-right {
+.header_controls-right {
   margin: 50px;
   margin-bottom: 20px;
   width: 100%;
@@ -143,15 +143,15 @@
   justify-content: center;
 }
 
-.controls {
+.header_controls {
   display: flex;
 }
 
 @media screen and (max-width: 769px) {
-  .controls {
+  .header_controls {
     flex-wrap: wrap;
   }
-  .controls-right {
+  .header_controls-right {
     margin: 10px 50px;
   }
   .score-board {

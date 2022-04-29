@@ -1,9 +1,7 @@
-
-
 //Frame constructions
-const Frame = ({ frameNumber, firstFrameScoreLabel, secondFrameScoreLabel, thirdFrameScoreLabel, extraFrameScoreLabel, score }) => (
+const Frame = ({ frameTitle, firstFrameScoreLabel, secondFrameScoreLabel, thirdFrameScoreLabel, extraFrameScoreLabel, score }) => (
    <div className="frame">
-     <div className="frame-number">{frameNumber}</div>
+     <div className="frame_title">{frameTitle}</div>
      <div className="frame-score">
        <div className="box firstFrameScoreLabel">{firstFrameScoreLabel}</div>
        <div className="box secondFrameScoreLabel">{secondFrameScoreLabel}</div>
